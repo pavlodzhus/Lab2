@@ -1,0 +1,29 @@
+#!/bin/bash
+
+addressbook="addressbook"
+
+case "$1" in
+    "new")
+        echo "$2 $3" >> "$addressbook"
+        ;;
+    "list")
+        if [ -s "$addressbook" ]; then
+            cat "$addressbook"
+        else
+            echo "Adressbook is empty"
+        fi
+        ;;
+    "remove")
+        sed -i "/^$2/d" "$addressbook"
+        ;;
+    "clear")
+        > "$addressbook"
+        ;;
+    "lookup")
+        grep "$2" "$addressbook" | awk '{print $2}'
+        ;;
+    *)
+        echo "Usage: $0 {new|list|remove|clear|lookup} [arguments]"
+        exit 1
+        ;;
+esac
